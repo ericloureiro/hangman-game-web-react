@@ -1,6 +1,6 @@
 import React from 'react';
 import { Button } from '@material-ui/core';
-import '../App.css';
+import '../index.css';
 import SelectComponent from '../components/select-component';
 import { withRouter } from 'react-router-dom';
 
