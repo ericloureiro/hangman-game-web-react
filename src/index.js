@@ -1,6 +1,14 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
-import App from './App';
+import HomePage from './pages/HomePage';
+import RouterController from './utils/Router';
 
-ReactDOM.render(<App />, document.getElementById('root'));
+ReactDOM.render(
+  <div className='app'>
+    <RouterController>
+      <HomePage />
+    </RouterController>
+  </div>,
+  document.getElementById('root')
+);
