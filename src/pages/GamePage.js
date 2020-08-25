@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Container, Row } from 'reactstrap';
 import { makeStyles } from '@material-ui/core/styles';
 import Paper from '@material-ui/core/Paper';
@@ -20,6 +20,7 @@ const useStyles = makeStyles((theme) => ({
 export default function GamePage() {
   const classes = useStyles();
   const [value, setValue] = useState('');
+  const [word, setWord] = useState('');
 
   const words = data.map((word) => word);
 
@@ -35,10 +36,14 @@ export default function GamePage() {
     return <div className={classes.root}>{items}</div>;
   };
 
+  useEffect(() => {
+    setWord(renderEncryptedAwnser(awnser))
+  }, []);
+
   return (
     <div className='centered'>
       <Container>
-        <Row>{renderEncryptedAwnser(awnser)}</Row>
+        <Row>{word}</Row>
         <Row className='centerfixed'>
           <InputComponent
             placeholder={'TRY TO GUESS A LETTER'}
