@@ -28,20 +28,20 @@ const useStyles = makeStyles((theme) => ({
 
 const InputComponent = (props) => {
   const classes = useStyles();
-  const onEnterPressed = (_) => {};
+  const { placeholder, value, handleEnterPressed, handleChange } = props;
 
   return (
     <Paper component='form' className={classes.root}>
       <InputBase
         autoFocus
         className={classes.input}
-        placeholder={props.placeholder}
-        value={props.value.toUpperCase()}
-        onChange={(e) => props.onChange(e)}
+        placeholder={placeholder}
+        value={value.toUpperCase()}
+        onChange={handleChange}
         onKeyPress={(e) => {
           if (e.key === 'Enter') {
             e.preventDefault();
-            onEnterPressed();
+            handleEnterPressed();
           }
         }}
         type={'text'}
