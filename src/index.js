@@ -1,6 +1,6 @@
+import './index.css';
 import React from 'react';
 import ReactDOM from 'react-dom';
-import './index.css';
 import HomePage from './pages/HomePage';
 import RouterController from './utils/Router';
 

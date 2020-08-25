@@ -25,6 +25,7 @@ code {
 }
 
 .centerfixed {
+  margin-top: 16px;
   position: fixed;
   left: 50%;
   transform: translateX(-50%);

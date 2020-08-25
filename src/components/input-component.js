@@ -26,7 +26,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function InputComponent(props) {
+const InputComponent = (props) => {
   const classes = useStyles();
   const onEnterPressed = (_) => {};
 
@@ -53,4 +53,6 @@ export default function InputComponent(props) {
       </IconButton>
     </Paper>
   );
-}
+};
+
+export default InputComponent;

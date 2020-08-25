@@ -1,11 +1,23 @@
 import React from 'react';
+import { makeStyles } from '@material-ui/core/styles';
 import { Select, MenuItem, FormControl, InputLabel } from '@material-ui/core';
 
-export default function SelectComponent(props) {
+const useStyles = makeStyles((theme) => ({
+  root: {
+    position: 'flex',
+    bottom: 10,
+    right: 15,
+    margin: 5,
+  },
+}));
+
+const SelectComponent = (props) => {
+  const classes = useStyles();
   const { title, value, valuesList, handleChange, width } = props;
 
   return (
     <FormControl
+      className={classes.root}
       style={{
         width,
         position: 'flex',
@@ -29,4 +41,6 @@ export default function SelectComponent(props) {
       </Select>
     </FormControl>
   );
-}
+};
+
+export default SelectComponent;

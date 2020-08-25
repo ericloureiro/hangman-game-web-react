@@ -1,8 +1,8 @@
+import '../index.css';
 import React, { useState, useEffect } from 'react';
 import { Container, Row } from 'reactstrap';
 import { makeStyles } from '@material-ui/core/styles';
 import Paper from '@material-ui/core/Paper';
-import '../index.css';
 import InputComponent from '../components/input-component';
 import data from '../resources/words.json';
 
@@ -17,27 +17,22 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function GamePage() {
+const GamePage = (props) => {
   const classes = useStyles();
   const [value, setValue] = useState('');
   const [word, setWord] = useState('');
-
   const words = data.map((word) => word);
-
   const awnser = words[Math.floor(Math.random() * words.length)];
 
-  const renderEncryptedAwnser = (awnser) => {
+  useEffect(() => {
     const items = [];
 
     for (let i = 0; i < awnser.length; i++) {
       items.push(<Paper key={i} variant='outlined' color='primary' />);
     }
 
-    return <div className={classes.root}>{items}</div>;
-  };
-
-  useEffect(() => {
-    setWord(renderEncryptedAwnser(awnser))
+    setWord(<div className={classes.root}>{items}</div>);
+    // eslint-disable-next-line
   }, []);
 
   return (
@@ -54,4 +49,6 @@ export default function GamePage() {
       </Container>
     </div>
   );
-}
+};
+
+export default GamePage;
