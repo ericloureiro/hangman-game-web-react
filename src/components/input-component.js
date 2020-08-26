@@ -28,7 +28,7 @@ const useStyles = makeStyles((theme) => ({
 
 const InputComponent = (props) => {
   const classes = useStyles();
-  const { placeholder, value, handleEnterPressed, handleChange } = props;
+  const { placeholder, value, handleSubmit, handleChange } = props;
 
   return (
     <Paper component='form' className={classes.root}>
@@ -41,14 +41,18 @@ const InputComponent = (props) => {
         onKeyPress={(e) => {
           if (e.key === 'Enter') {
             e.preventDefault();
-            handleEnterPressed();
+            handleSubmit();
           }
         }}
         type={'text'}
         inputProps={{ maxLength: 1, pattern: '[a-zA-Z]' }}
       />
       <Divider className={classes.divider} orientation='vertical' />
-      <IconButton className={classes.iconButton} color='primary'>
+      <IconButton
+        className={classes.iconButton}
+        color={'primary'}
+        onClick={(e) => handleSubmit()}
+      >
         <SendIcon />
       </IconButton>
     </Paper>
