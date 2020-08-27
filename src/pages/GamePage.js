@@ -5,9 +5,7 @@ import { makeStyles } from '@material-ui/core/styles';
 import Paper from '@material-ui/core/Paper';
 import InputComponent from '../components/input-component';
 import data from '../resources/words.json';
-import SnackBarComponent from '../components/snackbar-component';
-import { SnackBarContext } from '../utils/SnackBarContext';
-import useSnackBars from '../utils/SnackBarConsumer';
+import { withSnackbar } from 'notistack';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -56,6 +54,7 @@ const GamePage = (props) => {
     if (value === '' || value === undefined) {
     }
 
+    props.enqueueSnackbar('yay', { variant: 'success' });
     // TODO Validations before replace !!
     // if () {
     //   setTextSnackBar('You guessed the letter ' + value);
@@ -87,4 +86,4 @@ const GamePage = (props) => {
   );
 };
 
-export default GamePage;
+export default withSnackbar(GamePage);

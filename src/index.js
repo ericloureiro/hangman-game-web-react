@@ -1,14 +1,14 @@
 import './index.css';
+import App from './App';
 import React from 'react';
 import ReactDOM from 'react-dom';
-import HomePage from './pages/HomePage';
-import RouterController from './utils/Router';
+import { SnackbarProvider } from 'notistack';
 
 ReactDOM.render(
-  <div className='app'>
-    <RouterController>
-      <HomePage />
-    </RouterController>
-  </div>,
+  <SnackbarProvider maxSnack={3}>
+    <div className='app'>
+      <App />
+    </div>
+  </SnackbarProvider>,
   document.getElementById('root')
 );
