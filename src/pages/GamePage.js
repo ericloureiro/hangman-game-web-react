@@ -1,5 +1,5 @@
 import '../index.css';
-import React, { useState, useCallback, useMemo, useContext } from 'react';
+import React, { useState, useCallback, useMemo, useEffect } from 'react';
 import { Container, Row } from 'reactstrap';
 import { makeStyles } from '@material-ui/core/styles';
 import Paper from '@material-ui/core/Paper';
@@ -20,17 +20,18 @@ const useStyles = makeStyles((theme) => ({
 
 const GamePage = (props) => {
   const classes = useStyles();
-  const [value, setValue] = useState('');
+  const [awnserRendered, setAwnserRendered] = useState('');
 
-  const SPACE = '_';
   const words = useMemo(() => data.map((word) => word), []);
+
   const randozimeWord = useCallback(
     () => words[Math.floor(Math.random() * words.length)],
     [words]
   );
 
   const awnser = useMemo(() => randozimeWord(), [randozimeWord]);
-  const awnserRendered = useMemo(() => {
+
+  const renderAwnser = useCallback(() => {
     const items = [];
 
     for (let i = 0; i < awnser.length; i++) {
@@ -42,31 +43,68 @@ const GamePage = (props) => {
           elevation={2}
           color='primary'
         >
-          <h1>{SPACE}</h1>
+          <Container>{'_'}</Container>
         </Paper>
       );
     }
 
-    return <div className={classes.root}>{items}</div>;
-  }, [awnser, classes]);
+    setAwnserRendered(<div className={classes.root}>{items}</div>);
+  }, [classes.root, awnser]);
+
+  useEffect(() => renderAwnser(), [renderAwnser, awnser]);
 
   const onSubmit = (input) => {
-    if (value === '' || value === undefined) {
+    var isOneRight = false;
+
+    console.log(awnser);
+
+    if (!IsInputValid(input)) {
+      props.enqueueSnackbar('Please, inform a valid character', {
+        variant: 'info',
+      });
+
+      return;
     }
 
-    props.enqueueSnackbar('yay', { variant: 'success' });
-    // TODO Validations before replace !!
-    // if () {
-    //   setTextSnackBar('You guessed the letter ' + value);
-    //   setOpenSnackBar(true);
-    // }
-    // && input.Length == 1
-    // && char.IsLetter(input, 0)
-    // && !awnserEncrypted.ToString().Contains(input)
-    // && !displayedTrys.ToString().Contains(input);
-    // awnser.replace(value, awnser);
+    for (var i = 0; i < awnser.length; i++) {
+      if (!IsCharsEquals(input[0], awnser[i])) {
+        continue;
+      }
 
-    setValue('');
+      ReplaceAwnserEncryptedChar(input, i);
+      isOneRight = true;
+    }
+
+    if (isOneRight) {
+      props.enqueueSnackbar('yay', { variant: 'success' });
+    }
+  };
+
+  const IsInputValid = (input) => {
+    console.log(input);
+    return (
+      input !== null &&
+      input !== '' &&
+      input !== undefined &&
+      input.length === 1
+    );
+  };
+
+  const IsCharsEquals = (inputA, inputB) =>
+    inputA.toLowerCase() === inputB.toLowerCase();
+
+  const ReplaceAwnserEncryptedChar = (input, position) => {
+    var child = awnserRendered.props.children[position];
+
+    SetLastChildrenValue(input, child);
+  };
+
+  const SetLastChildrenValue = (input, object) => {
+    while (object['props'] !== undefined) {
+      object = object['props']['children'];
+    }
+
+    object = input;
   };
 
   return (
@@ -76,9 +114,7 @@ const GamePage = (props) => {
         <Row className='centerfixed'>
           <InputComponent
             placeholder={'TRY TO GUESS A LETTER'}
-            value={value}
-            handleChange={(e) => setValue(e.target.value)}
-            handleSubmit={(e) => onSubmit()}
+            handleSubmit={(e) => onSubmit(e)}
           />
         </Row>
       </Container>
