@@ -1,4 +1,4 @@
-import React, { useState, useCallback, useMemo, useEffect } from 'react';
+import React, { useState, useCallback, useEffect } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import Paper from '@material-ui/core/Paper';
 import InputBase from '@material-ui/core/InputBase';
@@ -24,6 +24,11 @@ const useStyles = makeStyles((theme) => ({
     height: 28,
     margin: 4,
   },
+  error: {
+    '&.MuiFormHelperText-root.Mui-error': {
+      color: theme.palette.common.black,
+    },
+  },
 }));
 
 const InputComponent = (props) => {
@@ -32,40 +37,42 @@ const InputComponent = (props) => {
   const [error, setError] = useState(false);
   const { placeholder, handleSubmit } = props;
 
-  const regex = useMemo(() => new RegExp('[^A-Za-z]'), []);
+  const regex = new RegExp('[^A-Za-z]');
   const handleChange = useCallback((value) => {
     setValue(value);
   }, []);
 
-  useEffect(() => setError(!regex.test(value)), [regex, value]);
+  useEffect(() => setError(value.length === 0 || regex.test(value)), [
+    value,
+    regex,
+  ]);
 
   return (
-    <Paper component='form' className={classes.root}>
+    <Paper className={classes.root}>
       <InputBase
         autoFocus
         error={error}
         className={classes.input}
         placeholder={placeholder}
-        value={value.toUpperCase()}
+        value={value?.toUpperCase()}
         onChange={(e) => handleChange(e.target.value)}
         onKeyPress={(e) => {
           if (e.key === 'Enter' && !error) {
             e.preventDefault();
-            handleSubmit();
+            handleSubmit(value);
           }
         }}
         type={'text'}
         inputProps={{
           maxLength: 1,
-          pattern: '[a-zA-Z]',
         }}
       />
       <Divider className={classes.divider} orientation='vertical' />
       <IconButton
-        disabled={!error}
+        disabled={error}
         className={classes.iconButton}
         color={'primary'}
-        onClick={(e) => handleSubmit()}
+        onClick={(e) => handleSubmit(value)}
       >
         <SendIcon />
       </IconButton>
